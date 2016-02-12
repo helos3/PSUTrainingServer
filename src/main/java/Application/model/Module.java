@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Rushan on 10.02.2016.
@@ -52,21 +53,36 @@ public class Module extends AbstractEntity {
 
     @Override
     public String toUpdateQuery() {
-        return null;
+
+        String updateQuery = "";
+        if (!idIsNull()) updateQuery = "UPDATE `mydb`.`module`\n" +
+                        "SET\n" +
+                        "`name` = "+ name +" \n" +
+                        "WHERE `id` ="+ ID +" ;\n";
+        return updateQuery;
     }
 
     @Override
     public String toDeleteQuery() {
-        return null;
+        String deleteQuery = "";
+        if (!idIsNull()) deleteQuery = "DELETE FROM `mydb`.`module`\n" +
+                "WHERE `id` ="+ ID +" ;\n";
+        return deleteQuery;
     }
 
     @Override
     public String toSelectQuery() {
-        return null;
+        String selectQuery = "";
+        if (!idIsNull()) selectQuery = "SELECT `module`.`id`,\n" +
+                "    `module`.`name`\n" +
+                "FROM `mydb`.`module`\n" +
+                "WHERE `id` ="+ ID +" ;\n";
+        return selectQuery;
     }
 
     @Override
-    public ResultSet fromSelectQuery() {
-        return null;
+    public void fromSelectQuery(ResultSet resultSet) throws SQLException{
+        ID = resultSet.getInt("id");
+        name = resultSet.getString("name");
     }
 }
