@@ -4,15 +4,14 @@ import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
  * Created by Rushan on 10.02.2016.
  */
 public class TrainingProgram extends AbstractEntity{
-    private String name, cathegory;
-    private HashMap<Integer, Module> modules; //key - id, value - name
-
+    private String name, category;
 
     public void setName(String name) {
         this.name = name;
@@ -48,19 +47,15 @@ public class TrainingProgram extends AbstractEntity{
         return null;
     }
 
-    @Override
-    public ResultSet fromSelectQuery() {
-        return null;
-    }
 
     public TrainingProgram(int ID, String name, String cathegory) {
         this.ID = ID;
         this.name = name;
-        this.cathegory = cathegory;
+        this.category = cathegory;
     }
 
-    public void setCathegory(String cathegory) {
-        this.cathegory = cathegory;
+    public void setCategory(String cathegory) {
+        this.category = cathegory;
     }
 
     public String getName() {
@@ -68,16 +63,12 @@ public class TrainingProgram extends AbstractEntity{
         return name;
     }
 
-    public String getCathegory() {
-        return cathegory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setModules(HashMap<Integer, Module> modules) {
-        this.modules = modules;
-    }
+    @Override
+    public void fromSelectQuery(ResultSet resultSet) throws SQLException {
 
-    public HashMap<Integer, Module> getModules() {
-        return modules;
     }
-
 }

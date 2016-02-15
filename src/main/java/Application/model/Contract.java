@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -73,19 +74,7 @@ public class Contract extends AbstractEntity {
     }
 
     @Override
-    public ResultSet fromSelectQuery() {
-        return null;
-    }
+    public void fromSelectQuery(ResultSet resultSet) throws SQLException {
 
-    public Date getSignDate() {
-        return signDate;
-    }
-
-    public Listener getListener() {
-        return listener;
-    }
-
-    public String getContractStatus() {
-        return contractStatus;
     }
 }

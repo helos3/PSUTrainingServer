@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -78,7 +79,7 @@ public class CompletedTraining extends AbstractEntity {
     }
 
     @Override
-    public ResultSet fromSelectQuery() {
-        return null;
+    public void fromSelectQuery(ResultSet resultSet) throws SQLException {
+
     }
 }
