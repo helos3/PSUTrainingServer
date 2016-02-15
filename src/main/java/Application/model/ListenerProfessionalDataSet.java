@@ -11,10 +11,10 @@ import java.util.ArrayList;
  */
 public class ListenerProfessionalDataSet implements JSONAble {
 
-    CategoryFactory.Subdivision subdivision;
-    CategoryFactory.Position position;
-    CategoryFactory.AcademicDegree academicDegree;
-    CategoryFactory.AcademicRank academicRank;
+    private CategoryFactory.Subdivision subdivision;
+    private CategoryFactory.Position position;
+    private CategoryFactory.AcademicDegree academicDegree;
+    private CategoryFactory.AcademicRank academicRank;
 
     public ListenerProfessionalDataSet(CategoryFactory.Subdivision subdivision, CategoryFactory.Position position, CategoryFactory.AcademicDegree academicDegree, CategoryFactory.AcademicRank academicRank) {
         this.subdivision = subdivision;

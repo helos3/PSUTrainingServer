@@ -14,45 +14,43 @@ public class Contract extends AbstractEntity {
 
     private Date signDate;
     private Listener listener;
-    private String contractStatus;
+    private CategoryFactory.ContractStatus contractStatus;
     private TrainingProgram trainingProgram;
 
-    public void setTrainingProgram(TrainingProgram trainingProgram) {
+    public Contract() {
+        contractStatus = new CategoryFactory().contractStatusCreate();
+        trainingProgram = new TrainingProgram();
+        listener = new Listener();
+    }
+
+    public Contract(TrainingProgram trainingProgram, CategoryFactory.ContractStatus contractStatus, Listener listener, Date signDate) {
         this.trainingProgram = trainingProgram;
-    }
-
-    public TrainingProgram getTrainingProgram() {
-
-        return trainingProgram;
-    }
-
-    public Contract(int contractNumber, Date signDate, Listener listener) {
-        this.signDate = signDate;
-        this.listener = listener;
-    }
-
-    public void setSignDate(Date signDate) {
-        this.signDate = signDate;
-    }
-
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public void setContractStatus(String contractStatus) {
         this.contractStatus = contractStatus;
+        this.listener = listener;
+        this.signDate = signDate;
     }
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+            put("id", ID);
+            put("sign_date", signDate);
+            put("listener", listener.toJSON());
+            put("training_program", trainingProgram.toJSON());
+            put("contract_status", contractStatus.toJSON());
+        }};
     }
 
     @Override
     public void fromJSON(JSONObject inputJSON) {
-
+        ID = (int) inputJSON.get("id");
+        signDate = (Date) inputJSON.get("sign_date");
+        listener.fromJSON((JSONObject) inputJSON.get("listener"));
+        trainingProgram.fromJSON((JSONObject) inputJSON.get("training_program"));
+        contractStatus.fromJSON((JSONObject) inputJSON.get("contract_status"));
     }
 
+    //TODO: запросы дописать
     @Override
     public String toInsertQuery() {
         return null;

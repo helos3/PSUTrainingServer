@@ -11,13 +11,13 @@ import java.sql.SQLException;
  * Created by Rushan on 10.02.2016.
  */
 public class Listener extends AbstractEntity {
-    String firstName;
-    String secondName;
-    String patronymic;
-    String passSerial;
-    String passNumber;
-    String city;
-    ListenerProfessionalDataSet professionalDataSet;
+    private String firstName;
+    private String secondName;
+    private String patronymic;
+    private String passSerial;
+    private String passNumber;
+    private String city;
+    private ListenerProfessionalDataSet professionalDataSet;
 
     public Listener() {
         professionalDataSet = new ListenerProfessionalDataSet();
@@ -93,19 +93,21 @@ public class Listener extends AbstractEntity {
 
     @Override
     public JSONObject toJSON() {
-        JSONObject resultJSON = new JSONObject();
-        resultJSON.put("first_name", firstName);
-        resultJSON.put("second_name", secondName);
-        resultJSON.put("patronymic", patronymic);
-        resultJSON.put("pass_serial", passSerial);
-        resultJSON.put("pass_number", passNumber);
-        resultJSON.put("city", city);
-        resultJSON.put("professional_data", professionalDataSet.toJSON());
-        return resultJSON;
+        return new JSONObject(){{
+            put("id", ID);
+            put("first_name", firstName);
+            put("second_name", secondName);
+            put("patronymic", patronymic);
+            put("pass_serial", passSerial);
+            put("pass_number", passNumber);
+            put("city", city);
+            put("professional_data", professionalDataSet.toJSON());
+        }};
     }
 
     @Override
     public void fromJSON(JSONObject inputJSON) {
+        ID = (int) inputJSON.get("id");
         firstName = (String) inputJSON.get("first_name");
         secondName = (String) inputJSON.get("second_name");
         patronymic = (String) inputJSON.get("patronymic");
@@ -128,12 +130,12 @@ public class Listener extends AbstractEntity {
                 "`academic_degree_id`,\n" +
                 "`subdivision_id`,\n" +
                 "`position_id`)\n" +
-                "VALUES (\"" + firstName + "\", \"" +secondName+ "\", \""+ patronymic +"\", \n" +
-                "\""+ passSerial+"\", \""+passNumber+"\", \""+city+"\", \"" +
-                professionalDataSet.academicRank.getID()+"\", \"" +
-                professionalDataSet.academicDegree.getID()+"\", \"" +
-                professionalDataSet.subdivision.getID()+"\", \"" +
-                professionalDataSet.position.getID()+"\");\n";
+                "VALUES (\"" + firstName + "\", \"" + secondName + "\", \"" + patronymic + "\", \n" +
+                "\"" + passSerial + "\", \"" + passNumber + "\", \"" + city + "\", \"" +
+                professionalDataSet.getAcademicRank().getID() + "\", \"" +
+                professionalDataSet.getAcademicDegree().getID() + "\", \"" +
+                professionalDataSet.getSubdivision().getID() + "\", \"" +
+                professionalDataSet.getPosition().getID() + "\");\n";
         return insertQuery;
     }
 
@@ -141,24 +143,24 @@ public class Listener extends AbstractEntity {
     public String toUpdateQuery() {
         String updateQuery = "UPDATE `mydb`.`listener`\n" +
                 "SET\n" +
-                "`first_name` = \""+ firstName +"\",\n" +
-                "`second_name` = \"" + secondName+"\",\n" +
-                "`patronymic` = \""+patronymic+"\",\n" +
-                "`pass_serial` = \""+passSerial+"\",\n" +
-                "`pass_number` =\""+passNumber+"\",\n" +
-                "`city` = \""+city+"\",\n" +
-                "`academic_rank_id` = "+professionalDataSet.academicRank.getID()+",\n" +
-                "`academic_degree_id` = "+professionalDataSet.academicDegree.getID()+",\n" +
-                "`subdivision_id` = "+professionalDataSet.subdivision.getID()+",\n" +
-                "`position_id` = "+professionalDataSet.position.getID()+"\n" +
-                "WHERE `id` = "+ID+";\n";
+                "`first_name` = \"" + firstName + "\",\n" +
+                "`second_name` = \"" + secondName + "\",\n" +
+                "`patronymic` = \"" + patronymic + "\",\n" +
+                "`pass_serial` = \"" + passSerial + "\",\n" +
+                "`pass_number` =\"" + passNumber + "\",\n" +
+                "`city` = \"" + city + "\",\n" +
+                "`academic_rank_id` = " + professionalDataSet.getAcademicRank().getID() + ",\n" +
+                "`academic_degree_id` = " + professionalDataSet.getAcademicDegree().getID() + ",\n" +
+                "`subdivision_id` = " + professionalDataSet.getSubdivision().getID() + ",\n" +
+                "`position_id` = " + professionalDataSet.getPosition().getID() + "\n" +
+                "WHERE `id` = " + ID + ";\n";
         return updateQuery;
     }
 
     @Override
     public String toDeleteQuery() {
         String deleteQuery = "DELETE FROM `mydb`.`listener`\n" +
-                "WHERE `id` = "+ID+";\n";
+                "WHERE `id` = " + ID + ";\n";
         return deleteQuery;
     }
 
@@ -176,7 +178,7 @@ public class Listener extends AbstractEntity {
                 "    `listener`.`subdivision_id`,\n" +
                 "    `listener`.`position_id`\n" +
                 "FROM `mydb`.`listener`\n" +
-                "WHERE `id` = "+ID+";\n";
+                "WHERE `id` = " + ID + ";\n";
         return selectQuery;
     }
 
@@ -188,10 +190,10 @@ public class Listener extends AbstractEntity {
         passSerial = resultSet.getString("pass_serial");
         passNumber = resultSet.getString("pass_number");
         city = resultSet.getString("city");
-        professionalDataSet.academicRank.setID(resultSet.getInt("academic_rank_id"));
-        professionalDataSet.academicDegree.setID(resultSet.getInt("academic_degree_id"));
-        professionalDataSet.subdivision.setID(resultSet.getInt("subdivision_id"));
-        professionalDataSet.position.setID(resultSet.getInt("position_id"));
+        professionalDataSet.getAcademicRank().setID(resultSet.getInt("academic_rank_id"));
+        professionalDataSet.getAcademicDegree().setID(resultSet.getInt("academic_degree_id"));
+        professionalDataSet.getSubdivision().setID(resultSet.getInt("subdivision_id"));
+        professionalDataSet.getPosition().setID(resultSet.getInt("position_id"));
 
 
     }

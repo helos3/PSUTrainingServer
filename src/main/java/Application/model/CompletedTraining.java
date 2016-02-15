@@ -16,12 +16,16 @@ public class CompletedTraining extends AbstractEntity {
     private ListenerProfessionalDataSet listenerProfessionalDataSet;
     private Date endDate;
 
-    public CompletedTraining(int contractNumber, Listener listener, ListenerProfessionalDataSet listenerProfessionalDataSet, Date endDate) {
+    public CompletedTraining(Listener listener, ListenerProfessionalDataSet listenerProfessionalDataSet, Date endDate) {
         this.listener = listener;
         this.listenerProfessionalDataSet = listenerProfessionalDataSet;
         this.endDate = endDate;
     }
 
+    public CompletedTraining() {
+        listener = new Listener();
+        listenerProfessionalDataSet = new ListenerProfessionalDataSet();
+    }
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -50,14 +54,24 @@ public class CompletedTraining extends AbstractEntity {
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject() {{
+            put("id", ID);
+            put("listener", listener.toJSON());
+            put("professional_current_data", listenerProfessionalDataSet.toJSON());
+            put("end_date", endDate);
+        }};
     }
 
     @Override
     public void fromJSON(JSONObject inputJSON) {
-
+        ID = (int) inputJSON.get("id");
+        listener.fromJSON((JSONObject) inputJSON.get("listener"));
+        listenerProfessionalDataSet.fromJSON((JSONObject) inputJSON.get("professional_current_data"));
+        endDate = (Date) inputJSON.get("end_date");
     }
 
+
+    //TODO: запросы дописать
     @Override
     public String toInsertQuery() {
         return null;

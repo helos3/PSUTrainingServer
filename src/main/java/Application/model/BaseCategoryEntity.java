@@ -26,15 +26,15 @@ public class BaseCategoryEntity extends AbstractEntity {
 
     @Override
     public JSONObject toJSON() {
-        JSONObject resultJSON = new JSONObject();
-        resultJSON.put("id", ID);
-        if (!idIsNull()) resultJSON.put("name", name);
-        return resultJSON;
+        return new JSONObject() {{
+            put("id", ID);
+            put("name", name);
+        }};
     }
 
     @Override
     public void fromJSON(JSONObject inputJSON) {
-            ID = (int) inputJSON.get("id");
+        ID = (int) inputJSON.get("id");
         name = (String) inputJSON.get("name");
     }
 
@@ -80,7 +80,6 @@ public class BaseCategoryEntity extends AbstractEntity {
         ID = resultSet.getInt("id");
         name = resultSet.getString("name");
     }
-
 
 
 }

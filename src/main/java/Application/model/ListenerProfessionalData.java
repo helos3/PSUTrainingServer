@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class ListenerProfessionalData {
 
+    //TODO: понять наконец, зачем я вообще создал этот класс
     private ArrayList<CategoryFactory.Subdivision> subdivisionList;
     private ArrayList<CategoryFactory.Position> positionList;
     private ArrayList<CategoryFactory.AcademicDegree> academicDegree;
