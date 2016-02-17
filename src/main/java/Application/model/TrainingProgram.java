@@ -56,9 +56,9 @@ public class TrainingProgram extends AbstractEntity {
 
     @Override
     public String toInsertQuery() {
-        String insertQuery = "INSERT INTO `mydb`.`training_program`\n" +
-                "(`name`,\n" +
-                "`category`)\n" +
+        String insertQuery = "INSERT INTO mydb.training_program\n" +
+                "(name,\n" +
+                "category)\n" +
                 "VALUES\n" +
                 "(\"" + name + "\", \"" + category + "\");\n";
         return insertQuery;
@@ -66,32 +66,32 @@ public class TrainingProgram extends AbstractEntity {
 
     @Override
     public String toUpdateQuery() {
-        String updateQuery = "UPDATE `mydb`.`training_program`\n" +
+        String updateQuery = "UPDATE mydb.training_program\n" +
                 "SET\n" +
-                "`name` = \"" + name + "\",\n" +
-                "`category` = \"" + category + "\"\n" +
-                "WHERE `id` = " + ID + ";\n";
+                "name = \"" + name + "\",\n" +
+                "category = \"" + category + "\"\n" +
+                "WHERE id = " + ID + ";\n";
         return updateQuery;
     }
 
     @Override
     public String toDeleteQuery() {
-        String deleteQuery = "DELETE FROM `mydb`.`training_program`\n" +
-                "WHERE `id` = " + ID + ";\n";
+        String deleteQuery = "DELETE FROM mydb.training_program\n" +
+                "WHERE id = " + ID + ";\n";
         return deleteQuery;
     }
 
     @Override
     public String toSelectQuery() {
-        String selectQuery = "SELECT `training_program`.`id`,\n" +
-                "    `training_program`.`name`,\n" +
-                "    `training_program`.`category`\n" +
-                "FROM `mydb`.`training_program`\n" +
-                "WHERE `id` = " + ID + ";\n";
+        String selectQuery = "SELECT training_program.id,\n" +
+                "    training_program.name,\n" +
+                "    training_program.category\n" +
+                "FROM mydb.training_program\n" +
+                "WHERE id = " + ID + ";\n";
         return selectQuery;
     }
 
-    @Override
+
     public void fromSelectQuery(ResultSet resultSet) throws SQLException {
         ID = resultSet.getInt("id");
         category = resultSet.getString("category");

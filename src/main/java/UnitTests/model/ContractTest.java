@@ -38,7 +38,7 @@ public class ContractTest {
         Listener listener = new Listener("first_name", "second_name", "patronymic", "pass_serial", "pass_number", "pass_serial", dataSet);
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(calendar.getTimeInMillis());
-        Contract contract = new Contract(program, status, listener, date);
+//        Contract contract = new Contract(program, status, listener, date);
 //        System.out.println(contract.toJSON());
     }
 
@@ -66,10 +66,10 @@ public class ContractTest {
         Listener listener = new Listener("first_name", "second_name", "patronymic", "pass_serial", "pass_number", "pass_serial", dataSet);
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(calendar.getTimeInMillis());
-        Contract contract1 = new Contract(program, status, listener, date);
+//        Contract contract1 = new Contract(program, status, listener, date);
         Contract contract2 = new Contract();
-        contract2.fromJSON(contract1.toJSON());
-        System.out.println(contract1.toJSON().toString());
+//        contract2.fromJSON(contract1.toJSON());
+//        System.out.println(contract1.toJSON().toString());
         System.out.println(contract2.toJSON().toString());
     }
 }

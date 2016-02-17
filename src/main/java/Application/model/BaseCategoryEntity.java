@@ -41,7 +41,7 @@ public class BaseCategoryEntity extends AbstractEntity {
     @Override
     public String toInsertQuery() {
         String insertQuery =
-                "INSERT INTO `mydb`.`" + tableName + "`(`name`)\n" +
+                "INSERT INTO mydb." + tableName + "(name)\n" +
                         "VALUES (\"" + name + "\");\n";
         return insertQuery;
     }
@@ -50,32 +50,31 @@ public class BaseCategoryEntity extends AbstractEntity {
     public String toUpdateQuery() {
 
         String updateQuery = "";
-        if (!idIsNull()) updateQuery = "UPDATE `mydb`.`" + tableName + "`\n" +
+        if (!idIsNull()) updateQuery = "UPDATE mydb." + tableName + "\n" +
                 "SET\n" +
-                "`name` = " + name + " \n" +
-                "WHERE `id` =" + ID + " ;\n";
+                "name = " + name + " \n" +
+                "WHERE id =" + ID + " ;\n";
         return updateQuery;
     }
 
     @Override
     public String toDeleteQuery() {
         String deleteQuery = "";
-        if (!idIsNull()) deleteQuery = "DELETE FROM `mydb`.`" + tableName + "`\n" +
-                "WHERE `id` =" + ID + " ;\n";
+        if (!idIsNull()) deleteQuery = "DELETE FROM mydb." + tableName + "\n" +
+                "WHERE id =" + ID + " ;\n";
         return deleteQuery;
     }
 
     @Override
     public String toSelectQuery() {
         String selectQuery = "";
-        if (!idIsNull()) selectQuery = "SELECT `" + tableName + "`.`id`,\n" +
-                "    `academic_rank`.`name`\n" +
-                "FROM `mydb`.`academic_rank`\n" +
-                "WHERE `id` =" + ID + " ;\n";
+        if (!idIsNull()) selectQuery = "SELECT " + tableName + ".id,\n" +
+                "    academic_rank.name\n" +
+                "FROM mydb.academic_rank\n" +
+                "WHERE id =" + ID + " ;\n";
         return selectQuery;
     }
 
-    @Override
     public void fromSelectQuery(ResultSet resultSet) throws SQLException {
         ID = resultSet.getInt("id");
         name = resultSet.getString("name");

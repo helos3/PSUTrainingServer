@@ -11,5 +11,4 @@ public interface MySQLQueries {
     public String toUpdateQuery();
     public String toDeleteQuery();
     public String toSelectQuery();
-    public void fromSelectQuery(ResultSet resultSet) throws SQLException;
 }
