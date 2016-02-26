@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 
 import static spark.Spark.*;
 
-public class justTest {
+public class sparkTest {
     static Connection connection = null;
 
     public static void main(String[] args) {

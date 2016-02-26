@@ -1,5 +1,6 @@
 package Application.model;
 
+import Application.utils.MysqlUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
@@ -208,55 +209,85 @@ public class Listener extends AbstractEntity {
         return selectQuery;
     }
 
-    public void fromSelectQuery(ResultSet resultSet) throws SQLException {
-        firstName = resultSet.getString("first_name");
-        secondName = resultSet.getString("second_name");
-        patronymic = resultSet.getString("patronymic");
-        passSerial = resultSet.getString("pass_serial");
-        passNumber = resultSet.getString("pass_number");
-        city = resultSet.getString("city");
-        professionalDataSet.getAcademicRank().setID(resultSet.getInt("academic_rank_id"));
-        professionalDataSet.getAcademicDegree().setID(resultSet.getInt("academic_degree_id"));
-        professionalDataSet.getSubdivision().setID(resultSet.getInt("subdivision_id"));
-        professionalDataSet.getPosition().setID(resultSet.getInt("position_id"));
+    public static Listener fromSelectQuery(ResultSet resultSet) throws SQLException {
+        int ID = resultSet.getInt("id");
+        String firstName = resultSet.getString("first_name");
+        String secondName = resultSet.getString("second_name");
+        String patronymic = resultSet.getString("patronymic");
+        String passSerial = resultSet.getString("pass_serial");
+        String passNumber = resultSet.getString("pass_number");
+        String city = resultSet.getString("city");
+        CategoryFactory factory = new CategoryFactory();
+        CategoryFactory.AcademicRank academicRank = factory.academicRankCreate();
+        CategoryFactory.AcademicDegree academicDegree = factory.academicDegreeCreate();
+        CategoryFactory.Position position = factory.positionCreate();
+        CategoryFactory.Subdivision subdivision = factory.subdivisionCreate();
+        academicDegree.setID(resultSet.getInt("academic_degree_id"));
+        academicDegree.setName(resultSet.getString("academic_degree.name"));
+        academicRank.setID(resultSet.getInt("academic_rank_id"));
+        academicRank.setName(resultSet.getString("academic_rank.name"));
+        position.setID(resultSet.getInt("position_id"));
+        position.setName(resultSet.getString("position.name"));
+        subdivision.setID(resultSet.getInt("subdivision_id"));
+        subdivision.setName(resultSet.getString("subdivision.name"));
+        ListenerProfessionalDataSet dataSet = new ListenerProfessionalDataSet(subdivision, position, academicDegree, academicRank);
+
+        Listener listener = new Listener(firstName,secondName, patronymic, passSerial, passNumber, city, dataSet);
+        listener.setID(ID);
+        return listener;
+
     }
 
     public void getContractsFromDB(Connection connection) throws SQLException {
-        Statement stmt = null;
-        ResultSet rs = null;
+        String selectQuery = "SELECT contract.id,\n" +
+                "                    contract.sign_date,\n" +
+                "                    contract.listener_id,\n" +
+                "                    contract.training_program_id,\n" +
+                "                    contract.contract_status_id,\n" +
+                "                    training_program.name,\n" +
+                "                    training_program.category,\n" +
+                "                    contract_status.name\n" +
+                "                FROM mydb.contract, mydb.contract_status, mydb.training_program\n" +
+                "                where contract.listener_id = " + ID + " and training_program.id = contract.training_program_id\n" +
+                "                and contract_status.id = contract.contract_status_id;  \n";
 
-        JSONObject resultJson = new JSONObject();
-
-        stmt = connection.createStatement();
-        rs = stmt.executeQuery("SELECT contract.id,\n" +
-                "    contract.number,\n" +
-                "    contract.sign_date,\n" +
-                "    contract.listener_id,\n" +
-                "    contract.training_program_id,\n" +
-                "    contract.contract_status_id,\n" +
-                "    training_program.name,\n" +
-                "    training_program.category,\n" +
-                "    contract_status.name\n" +
-                "FROM mydb.contract, mydb.contract_status, mydb.training_program\n" +
-                "where contract.listener_id = " + ID + " and training_program.id = contract.training_program_id\n" +
-                "and contract_status.id = contract.contract_status_id;  \n");
-
-        if (stmt.execute("SELECT contract.id,\n" +
-                "    contract.number,\n" +
-                "    contract.sign_date,\n" +
-                "    contract.listener_id,\n" +
-                "    contract.training_program_id,\n" +
-                "    contract.contract_status_id,\n" +
-                "    training_program.name,\n" +
-                "    training_program.category,\n" +
-                "    contract_status.name\n" +
-                "FROM mydb.contract, mydb.contract_status, mydb.training_program\n" +
-                "where contract.listener_id = " + ID + " and training_program.id = contract.training_program_id\n" +
-                "and contract_status.id = contract.contract_status_id;  \n")) {
-            rs = stmt.getResultSet();
-        }
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
         while (rs.next()) {
-            contracts.add(Contract.fromSelectQuery(rs, ID));
+            contracts.add(Contract.fromSelectQuery(rs));
         }
     }
+
+    public static ArrayList<Listener> getValuesFromDB(Connection connection) throws SQLException {
+        ArrayList<Listener> values = new ArrayList<>();
+        String selectQuery = "SELECT `listener`.`id`,\n" +
+                "    `listener`.`first_name`,\n" +
+                "    `listener`.`second_name`,\n" +
+                "    `listener`.`patronymic`,\n" +
+                "    `listener`.`pass_serial`,\n" +
+                "    `listener`.`pass_number`,\n" +
+                "    `listener`.`city`,\n" +
+                "    `listener`.`academic_rank_id`,\n" +
+                "    `listener`.`academic_degree_id`,\n" +
+                "    `listener`.`subdivision_id`,\n" +
+                "    `listener`.`position_id`,\n" +
+                "    `academic_degree`.`name`,\n" +
+                "    `academic_rank`.`name`,\n" +
+                "    `position`.`name`,\n" +
+                "\t`subdivision`.`name`    \n" +
+                "FROM `mydb`.`listener`, `mydb`.`academic_degree`, `mydb`.`academic_rank`, \n" +
+                "\t`mydb`.`position`, `mydb`.`subdivision`\n" +
+                "WHERE `listener`.`academic_rank_id` = `academic_rank`.`id` \n" +
+                "\tand `listener`.`academic_degree_id` = `academic_degree`.`id`\n" +
+                "    and `listener`.`position_id` = `position`.`id`\n" +
+                "    and `listener`.`subdivision_id` = `subdivision`.`id`;\n";
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
+        while (rs.next()) {
+            Listener listener = Listener.fromSelectQuery(rs);
+            listener.getContractsFromDB(connection);
+            values.add(listener);
+        }
+        return values;
+    }
+
+
 }

@@ -1,13 +1,13 @@
 package UnitTests.model;
 
-import Application.model.CategoryFactory;
-import Application.model.Contract;
-import Application.model.Graduate;
-import Application.model.ListenerProfessionalDataSet;
+import Application.model.*;
+import Application.utils.AbstractEntity;
 import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 public class GraduateTest {
 
-    @Test
+//    @Test
     public void testFromSelectQuery() throws Exception {
         Calendar calendar = Calendar.getInstance();
         java.util.Date date = new java.sql.Date(calendar.getTimeInMillis());
@@ -52,10 +52,10 @@ public class GraduateTest {
         } catch (Exception e) {
         }
         contract.getGraduateFromDB(connection);
-        System.out.println(contract.getGraduate().toJSON());
+//        System.out.println(contract.getGraduate().toJSON());
     }
 
-    @Test
+//    @Test
     public void testQueries(){
         Calendar calendar = Calendar.getInstance();
         java.util.Date date = new java.sql.Date(calendar.getTimeInMillis());
@@ -81,5 +81,49 @@ public class GraduateTest {
         System.out.println(graduate1.toUpdateQuery());
         System.out.println(graduate1.toDeleteQuery());
         System.out.println(graduate1.toSelectQuery());
+    }
+
+
+//    @Test
+    public void testValuesFromDB() throws SQLException{
+        Connection connection = null;
+
+        try {
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root&password=rushan196654rZ");
+        } catch (Exception e) {
+        }
+
+        ArrayList<Graduate> graduates = Graduate.getValuesFromDB(connection);
+        for(Graduate graduate: graduates) {
+            System.out.println(graduate.toJSON());
+        }
+
+    }
+
+    @Test
+    public void testQwe() {
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date date = new java.sql.Date(calendar.getTimeInMillis());
+        int contractID = 3;
+        CategoryFactory factory = new CategoryFactory();
+        CategoryFactory.AcademicRank academicRank = factory.academicRankCreate();
+        CategoryFactory.AcademicDegree academicDegree = factory.academicDegreeCreate();
+        CategoryFactory.Position position = factory.positionCreate();
+        CategoryFactory.Subdivision subdivision = factory.subdivisionCreate();
+        academicDegree.setID(1);
+        academicDegree.setName("name1");
+        academicRank.setID(1);
+        academicRank.setName("name1");
+        position.setID(1);
+        position.setName("name1");
+        subdivision.setID(1);
+        subdivision.setName("name1");
+        ListenerProfessionalDataSet dataSet = new ListenerProfessionalDataSet(subdivision, position, academicDegree, academicRank);
+
+        AbstractEntity graduate1 = new Graduate(contractID, dataSet, date);
+
+        System.out.println(graduate1.toJSON());
+
     }
 }

@@ -1,14 +1,15 @@
 package Application.model;
 
+import Application.utils.MysqlUtils;
 import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -136,6 +137,7 @@ public class Graduate extends AbstractEntity {
 
 
     public static Graduate fromSelectQuery(ResultSet resultSet) throws SQLException {
+        int ID = resultSet.getInt("graduate.id");
         Date endDate = resultSet.getDate("graduate.complete_date");
         int contractID = resultSet.getInt("graduate.contract_id");
         CategoryFactory factory = new CategoryFactory();
@@ -152,7 +154,37 @@ public class Graduate extends AbstractEntity {
         subdivision.setID(resultSet.getInt("graduate.current_subdivision_id"));
         subdivision.setName(resultSet.getString("subdivision.name"));
         ListenerProfessionalDataSet dataSet = new ListenerProfessionalDataSet(subdivision, position, academicDegree, academicRank);
-
-        return new Graduate(contractID, dataSet, endDate);
+        Graduate graduate = new Graduate(contractID, dataSet, endDate);
+        graduate.setID(ID);
+        return graduate;
     }
+
+
+    public static ArrayList<Graduate> getValuesFromDB(Connection connection) throws SQLException {
+        ArrayList<Graduate> values = new ArrayList<>();
+        String selectQuery = "SELECT `graduate`.`id`,\n" +
+                "    `graduate`.`contract_id`,\n" +
+                "    `graduate`.`complete_date`,\n" +
+                "    `graduate`.`current_academic_rank_id`,\n" +
+                "    `graduate`.`current_academic_degree_id`,\n" +
+                "    `graduate`.`current_subdivision_id`,\n" +
+                "    `graduate`.`current_position_id`,\n" +
+                "    `academic_degree`.`name`,\n" +
+                "    `academic_rank`.`name`,\n" +
+                "    `position`.`name`,\n" +
+                "\t`subdivision`.`name`    \n" +
+                "FROM `mydb`.`graduate`, `mydb`.`academic_degree`, `mydb`.`academic_rank`, \n" +
+                "\t`mydb`.`position`, `mydb`.`subdivision`\n" +
+                "WHERE `graduate`.`current_academic_rank_id` = `academic_rank`.`id` \n" +
+                "\tand `graduate`.`current_academic_degree_id` = `academic_degree`.`id`\n" +
+                "    and `graduate`.`current_position_id` = `position`.`id`\n" +
+                "    and `graduate`.`current_subdivision_id` = `subdivision`.`id`;\n";
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
+        while (rs.next()) {
+            Graduate graduate = Graduate.fromSelectQuery(rs);
+            values.add(graduate);
+        }
+        return values;
+    }
+
 }

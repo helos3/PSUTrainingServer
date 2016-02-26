@@ -1,10 +1,13 @@
 package Application.model;
 
 import Application.utils.AbstractEntity;
+import Application.utils.MysqlUtils;
 import org.json.simple.JSONObject;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by Rushan on 12.02.2016.
@@ -78,6 +81,23 @@ public class BaseCategoryEntity extends AbstractEntity {
     public void fromSelectQuery(ResultSet resultSet) throws SQLException {
         ID = resultSet.getInt("id");
         name = resultSet.getString("name");
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public ArrayList<BaseCategoryEntity> getValuesFromDB(Connection connection) throws SQLException {
+        ArrayList<BaseCategoryEntity> values = new ArrayList<>();
+        String selectQuery = "SELECT `id`, `name`\n" +
+                "FROM `mydb`.`"+ tableName +"`;\n";
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
+        while (rs.next()) {
+            BaseCategoryEntity value = new BaseCategoryEntity(tableName);
+            value.fromSelectQuery(rs);
+            values.add(value);
+        }
+        return values;
     }
 
 

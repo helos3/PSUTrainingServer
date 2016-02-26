@@ -1,17 +1,16 @@
 package Application.model;
 
+import Application.utils.MysqlUtils;
 import org.json.simple.JSONObject;
 import Application.utils.AbstractEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Rushan on 10.02.2016.
@@ -166,7 +165,9 @@ public class Contract extends AbstractEntity {
     }
 
 
-    public static Contract fromSelectQuery(ResultSet rs, int listenerID) throws SQLException {
+    public static Contract fromSelectQuery(ResultSet rs) throws SQLException {
+        int listenerID = rs.getInt("contract.listener_id");
+        int ID = rs.getInt("contract.id");
         CategoryFactory factory = new CategoryFactory();
         CategoryFactory.ContractStatus contractStatus = factory.contractStatusCreate();
         contractStatus.setName(rs.getString("contract_status.name"));
@@ -175,54 +176,59 @@ public class Contract extends AbstractEntity {
                 rs.getString("training_program.name"), rs.getString("training_program.category"));
         trainingProgram.setID(rs.getInt("contract.training_program_id"));
         java.sql.Date signDate = rs.getDate("sign_date");
-        return new Contract(trainingProgram, contractStatus, listenerID, signDate) {{
-            setGraduate(new Graduate());
-        }};
+        Contract contract = new Contract(trainingProgram, contractStatus, listenerID, signDate);
+        contract.setID(ID);
+        contract.setGraduate(new Graduate());
+        return contract;
     }
 
     public void getGraduateFromDB(Connection connection) throws SQLException {
-        Statement stmt = null;
-        ResultSet rs = null;
+        String selectQuery = "SELECT graduate.id,\n" +
+                "                    graduate.contract_id,\n" +
+                "                    graduate.complete_date,\n" +
+                "                    graduate.current_academic_rank_id,\n" +
+                "                    graduate.current_academic_degree_id,\n" +
+                "                    graduate.current_subdivision_id,\n" +
+                "                    graduate.current_position_id,\n" +
+                "                    academic_degree.name,\n" +
+                "                    academic_rank.name,\n" +
+                "                    position.name,\n" +
+                "                    subdivision.name\n" +
+                "                FROM mydb.graduate, mydb.academic_degree, mydb.academic_rank, mydb.position, mydb.subdivision\n" +
+                "                WHERE contract_id = " + ID + "\n" +
+                "                and academic_degree.id = graduate.current_academic_degree_id\n" +
+                "                    and academic_rank.id = graduate.current_academic_rank_id\n" +
+                "                    and position.id = graduate.current_position_id\n" +
+                "                    and subdivision.id = graduate.current_subdivision_id;\n";
 
-        stmt = connection.createStatement();
-        rs = stmt.executeQuery("SELECT graduate.id,\n" +
-                "    graduate.contract_id,\n" +
-                "    graduate.complete_date,\n" +
-                "    graduate.current_academic_rank_id,\n" +
-                "    graduate.current_academic_degree_id,\n" +
-                "    graduate.current_subdivision_id,\n" +
-                "    graduate.current_position_id,\n" +
-                "    academic_degree.name,\n" +
-                "    academic_rank.name,\n" +
-                "    position.name,\n" +
-                "    subdivision.name\n" +
-                "FROM mydb.graduate, mydb.academic_degree, mydb.academic_rank, mydb.position, mydb.subdivision\n" +
-                "WHERE contract_id = " + ID + "  \n" +
-                "\tand academic_degree.id = graduate.current_academic_degree_id \n" +
-                "    and academic_rank.id = graduate.current_academic_rank_id\n" +
-                "    and position.id = graduate.current_position_id\n" +
-                "    and subdivision.id = graduate.current_subdivision_id;\n");
-
-        if (stmt.execute("SELECT graduate.id,\n" +
-                "    graduate.contract_id,\n" +
-                "    graduate.complete_date,\n" +
-                "    graduate.current_academic_rank_id,\n" +
-                "    graduate.current_academic_degree_id,\n" +
-                "    graduate.current_subdivision_id,\n" +
-                "    graduate.current_position_id,\n" +
-                "    academic_degree.name,\n" +
-                "    academic_rank.name,\n" +
-                "    position.name,\n" +
-                "    subdivision.name\n" +
-                "FROM mydb.graduate, mydb.academic_degree, mydb.academic_rank, mydb.position, mydb.subdivision\n" +
-                "WHERE contract_id = " + ID + "  \n" +
-                "\tand academic_degree.id = graduate.current_academic_degree_id \n" +
-                "    and academic_rank.id = graduate.current_academic_rank_id\n" +
-                "    and position.id = graduate.current_position_id\n" +
-                "    and subdivision.id = graduate.current_subdivision_id;\n")) {
-            rs = stmt.getResultSet();
-        }
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
         rs.next();
         graduate = Graduate.fromSelectQuery(rs);
     }
+
+    public static ArrayList<Contract> getValuesFromDB(Connection connection) throws SQLException {
+        ArrayList<Contract> values = new ArrayList<>();
+        String selectQuery = "SELECT `contract`.`id`,\n" +
+                "    `contract`.`sign_date`,\n" +
+                "    `contract`.`listener_id`,\n" +
+                "    `contract`.`training_program_id`,\n" +
+                "    `contract`.`contract_status_id`,\n" +
+                "    `training_program`.`name`,\n" +
+                "    `training_program`.`category`,\n" +
+                "    `contract_status`.`name`\n" +
+                "FROM `mydb`.`contract`, `mydb`.`training_program`, `mydb`.`contract_status`\n" +
+                "WHERE `contract`.`training_program_id` = `training_program`.`id` \n" +
+                "\tand `contract`.`contract_status_id` = `contract_status`.`id`;";
+
+
+        ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
+        while (rs.next()) {
+            Contract contract = Contract.fromSelectQuery(rs);
+            contract.getGraduateFromDB(connection);
+            values.add(contract);
+        }
+        return values;
+    }
+
+
 }

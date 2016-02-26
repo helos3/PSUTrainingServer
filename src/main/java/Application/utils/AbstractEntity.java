@@ -3,7 +3,7 @@ package Application.utils;
 /**
  * Created by Rushan on 12.02.2016.
  */
-public abstract class AbstractEntity implements JSONAble, MySQLQueries {
+public abstract class AbstractEntity implements JSONAble, MysqlQueries {
     public int ID = -1;
 
     public boolean idIsNull() {
