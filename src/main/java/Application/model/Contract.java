@@ -98,6 +98,7 @@ public class Contract extends AbstractEntity {
             put("training_program", trainingProgram.toJSON());
             put("contract_status", contractStatus.toJSON());
             put("listener_id", listenerID);
+            put("graduate", graduate.toJSON());
         }};
     }
 
@@ -114,6 +115,7 @@ public class Contract extends AbstractEntity {
         trainingProgram.fromJSON((JSONObject) inputJSON.get("training_program"));
         contractStatus.fromJSON((JSONObject) inputJSON.get("contract_status"));
         listenerID = (int) inputJSON.get("listener_id");
+        graduate.fromJSON((JSONObject) inputJSON.get("graduate"));
     }
 
     @Override
@@ -153,14 +155,18 @@ public class Contract extends AbstractEntity {
 
     @Override
     public String toSelectQuery() {
-        String selectQuery = "SELECT contract.id,\n" +
-                "    contract.number,\n" +
-                "    contract.sign_date,\n" +
-                "    contract.listener_id,\n" +
-                "    contract.training_program_id,\n" +
-                "    contract.contract_status_id\n" +
-                "FROM mydb.contract\n" +
-                "WHERE id = " + ID + ";";
+        String selectQuery = "SELECT `contract`.`id`,\n" +
+                "    `contract`.`sign_date`,\n" +
+                "    `contract`.`listener_id`,\n" +
+                "    `contract`.`training_program_id`,\n" +
+                "    `contract`.`contract_status_id`,\n" +
+                "    `training_program`.`name`,\n" +
+                "    `training_program`.`category`,\n" +
+                "    `contract_status`.`name`\n" +
+                "FROM `mydb`.`contract`, `mydb`.`training_program`, `mydb`.`contract_status`\n" +
+                "WHERE `contract`.`id` = " + ID + " \n" +
+                "and `contract`.`training_program_id` = `training_program`.`id` \n" +
+                "\tand `contract`.`contract_status_id` = `contract_status`.`id`;";
         return selectQuery;
     }
 

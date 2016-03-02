@@ -13,7 +13,7 @@ public class TableNames {
     public static final String POSITION = "position";
     public static final String CONTRACT_STATUS = "contract_status";
     public static final String TRAINING_PROGRAM = "training_program";
-    public static final String TRAINING_PLAN = "training_plan";
+//    public static final String TRAINING_PLAN = "training_plan";
     public static final String MODULE = "module";
 
 }

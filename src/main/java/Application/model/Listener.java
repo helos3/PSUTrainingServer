@@ -117,7 +117,7 @@ public class Listener extends AbstractEntity {
             put("city", city);
             put("professional_data", professionalDataSet.toJSON());
             JSONArray contracts = new JSONArray();
-            for(Contract contract: getContracts())
+            for (Contract contract : getContracts())
                 contracts.add(contract.toJSON());
             put("contracts", contracts);
         }};
@@ -193,19 +193,28 @@ public class Listener extends AbstractEntity {
 
     @Override
     public String toSelectQuery() {
-        String selectQuery = "SELECT listener.id,\n" +
-                "    listener.first_name,\n" +
-                "    listener.second_name,\n" +
-                "    listener.patronymic,\n" +
-                "    listener.pass_serial,\n" +
-                "    listener.pass_number,\n" +
-                "    listener.city,\n" +
-                "    listener.academic_rank_id,\n" +
-                "    listener.academic_degree_id,\n" +
-                "    listener.subdivision_id,\n" +
-                "    listener.position_id\n" +
-                "FROM mydb.listener\n" +
-                "WHERE id = " + ID + ";\n";
+        String selectQuery = "SELECT `listener`.`id`,\n" +
+                "    `listener`.`first_name`,\n" +
+                "    `listener`.`second_name`,\n" +
+                "    `listener`.`patronymic`,\n" +
+                "    `listener`.`pass_serial`,\n" +
+                "    `listener`.`pass_number`,\n" +
+                "    `listener`.`city`,\n" +
+                "    `listener`.`academic_rank_id`,\n" +
+                "    `listener`.`academic_degree_id`,\n" +
+                "    `listener`.`subdivision_id`,\n" +
+                "    `listener`.`position_id`,\n" +
+                "    `academic_degree`.`name`,\n" +
+                "    `academic_rank`.`name`,\n" +
+                "    `position`.`name`,\n" +
+                "\t`subdivision`.`name`    \n" +
+                "FROM `mydb`.`listener`, `mydb`.`academic_degree`, `mydb`.`academic_rank`, \n" +
+                "\t`mydb`.`position`, `mydb`.`subdivision`\n" +
+                "WHERE `listener`.id = " + ID + " \n" +
+                "   and`listener`.`academic_rank_id` = `academic_rank`.`id` \n" +
+                "   and `listener`.`academic_degree_id` = `academic_degree`.`id`\n" +
+                "    and `listener`.`position_id` = `position`.`id`\n" +
+                "    and `listener`.`subdivision_id` = `subdivision`.`id`;\n";
         return selectQuery;
     }
 
@@ -232,7 +241,7 @@ public class Listener extends AbstractEntity {
         subdivision.setName(resultSet.getString("subdivision.name"));
         ListenerProfessionalDataSet dataSet = new ListenerProfessionalDataSet(subdivision, position, academicDegree, academicRank);
 
-        Listener listener = new Listener(firstName,secondName, patronymic, passSerial, passNumber, city, dataSet);
+        Listener listener = new Listener(firstName, secondName, patronymic, passSerial, passNumber, city, dataSet);
         listener.setID(ID);
         return listener;
 

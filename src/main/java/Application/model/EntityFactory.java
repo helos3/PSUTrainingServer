@@ -3,12 +3,14 @@ package Application.model;
 import Application.utils.AbstractEntity;
 import Application.utils.TableNames;
 
+import java.sql.SQLException;
+
 /**
  * Created by Rushan on 24.02.2016.
  */
 public class EntityFactory {
 
-    public static AbstractEntity createEntity(String tableName) throws Exception{
+    public static AbstractEntity createEntity(String tableName) throws SQLException {
         AbstractEntity entity;
         switch (tableName){
             case TableNames.ACADEMIC_DEGREE:
@@ -38,11 +40,11 @@ public class EntityFactory {
             case TableNames.SUBDIVISION:
                 entity = new CategoryFactory().subdivisionCreate();
                 break;
-            case TableNames.TRAINING_PLAN:
+            case TableNames.TRAINING_PROGRAM:
                 entity = new TrainingProgram();
                 break;
             default:
-                throw new Exception();
+                throw new SQLException();
         }
         return entity;
     }
