@@ -152,13 +152,13 @@ public class TrainingProgram extends AbstractEntity {
 
     public void updateModulesAtDB(Connection connection) throws SQLException {
         if (!modulesUpdated) return;
-        String updateQuery = "DELETE FROM `mydb`.`training_plan`\n" +
+        String updateQuery = "DELETE FROM mydb.training_plan\n" +
                 "WHERE training_plan.training_program_id = " + ID + ";\n";
         PreparedStatement statement = connection.prepareStatement(updateQuery);
         statement.executeUpdate();
         for (CategoryFactory.Module module : modules) {
-            updateQuery = "INSERT INTO `mydb`.`training_plan`\n" +
-                    "(`training_program_id`, `module_id`)\n" +
+            updateQuery = "INSERT INTO mydb.training_plan\n" +
+                    "(training_program_id, module_id)\n" +
                     "VALUES \n" +
                     "(" + ID + ", \n" +
                     module.getID() + ");\n";
@@ -170,10 +170,10 @@ public class TrainingProgram extends AbstractEntity {
     public static ArrayList<TrainingProgram> getValuesFromDB(Connection connection)
             throws SQLException {
         ArrayList<TrainingProgram> values = new ArrayList<>();
-        String selectQuery = "SELECT `training_program`.`id`,\n" +
-                "    `training_program`.`name`,\n" +
-                "    `training_program`.`category`\n" +
-                "FROM `mydb`.`training_program`;\n";
+        String selectQuery = "SELECT training_program.id,\n" +
+                "    training_program.name,\n" +
+                "    training_program.category\n" +
+                "FROM mydb.training_program;\n";
         ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
         while (rs.next()) {
             TrainingProgram program = TrainingProgram.fromSelectQuery(rs);

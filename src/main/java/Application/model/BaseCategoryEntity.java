@@ -89,8 +89,8 @@ public class BaseCategoryEntity extends AbstractEntity {
 
     public ArrayList<BaseCategoryEntity> getValuesFromDB(Connection connection) throws SQLException {
         ArrayList<BaseCategoryEntity> values = new ArrayList<>();
-        String selectQuery = "SELECT `id`, `name`\n" +
-                "FROM `mydb`.`" + tableName + "`;\n";
+        String selectQuery = "SELECT id, name\n" +
+                "FROM mydb." + tableName + ";\n";
         ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
         while (rs.next()) {
             BaseCategoryEntity value = new BaseCategoryEntity(tableName);

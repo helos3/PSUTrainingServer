@@ -19,7 +19,7 @@ public class Contract extends AbstractEntity {
 
     private int listenerID;
     private Date signDate;
-    private String signDateString;
+    private String signDateString = "";
     private CategoryFactory.ContractStatus contractStatus;
     private TrainingProgram trainingProgram;
     private Graduate graduate;
@@ -73,7 +73,6 @@ public class Contract extends AbstractEntity {
         contractStatus = new CategoryFactory().contractStatusCreate();
         trainingProgram = new TrainingProgram();
         graduate = new Graduate();
-
     }
 
     public void setSignDateString(String signDateString) {
@@ -155,18 +154,18 @@ public class Contract extends AbstractEntity {
 
     @Override
     public String toSelectQuery() {
-        String selectQuery = "SELECT `contract`.`id`,\n" +
-                "    `contract`.`sign_date`,\n" +
-                "    `contract`.`listener_id`,\n" +
-                "    `contract`.`training_program_id`,\n" +
-                "    `contract`.`contract_status_id`,\n" +
-                "    `training_program`.`name`,\n" +
-                "    `training_program`.`category`,\n" +
-                "    `contract_status`.`name`\n" +
-                "FROM `mydb`.`contract`, `mydb`.`training_program`, `mydb`.`contract_status`\n" +
-                "WHERE `contract`.`id` = " + ID + " \n" +
-                "and `contract`.`training_program_id` = `training_program`.`id` \n" +
-                "\tand `contract`.`contract_status_id` = `contract_status`.`id`;";
+        String selectQuery = "SELECT contract.id,\n" +
+                "    contract.sign_date,\n" +
+                "    contract.listener_id,\n" +
+                "    contract.training_program_id,\n" +
+                "    contract.contract_status_id,\n" +
+                "    training_program.name,\n" +
+                "    training_program.category,\n" +
+                "    contract_status.name\n" +
+                "FROM mydb.contract, mydb.training_program, mydb.contract_status\n" +
+                "WHERE contract.id = " + ID + " \n" +
+                "and contract.training_program_id = training_program.id \n" +
+                "\tand contract.contract_status_id = contract_status.id;";
         return selectQuery;
     }
 
@@ -214,17 +213,17 @@ public class Contract extends AbstractEntity {
 
     public static ArrayList<Contract> getValuesFromDB(Connection connection) throws SQLException {
         ArrayList<Contract> values = new ArrayList<>();
-        String selectQuery = "SELECT `contract`.`id`,\n" +
-                "    `contract`.`sign_date`,\n" +
-                "    `contract`.`listener_id`,\n" +
-                "    `contract`.`training_program_id`,\n" +
-                "    `contract`.`contract_status_id`,\n" +
-                "    `training_program`.`name`,\n" +
-                "    `training_program`.`category`,\n" +
-                "    `contract_status`.`name`\n" +
-                "FROM `mydb`.`contract`, `mydb`.`training_program`, `mydb`.`contract_status`\n" +
-                "WHERE `contract`.`training_program_id` = `training_program`.`id` \n" +
-                "\tand `contract`.`contract_status_id` = `contract_status`.`id`;";
+        String selectQuery = "SELECT contract.id,\n" +
+                "    contract.sign_date,\n" +
+                "    contract.listener_id,\n" +
+                "    contract.training_program_id,\n" +
+                "    contract.contract_status_id,\n" +
+                "    training_program.name,\n" +
+                "    training_program.category,\n" +
+                "    contract_status.name\n" +
+                "FROM mydb.contract, mydb.training_program, mydb.contract_status\n" +
+                "WHERE contract.training_program_id = training_program.id \n" +
+                "\tand contract.contract_status_id = contract_status.id;";
 
 
         ResultSet rs = MysqlUtils.executeSelectQuery(connection, selectQuery);
