@@ -12,11 +12,11 @@ import java.sql.SQLException;
  */
 @SpringBootApplication
 public class Application {
-    public static ConnectionPool connectionPool;
+//    public static ConnectionPool connectionPool;
     public static void main(String[] args) throws SQLException{
-        Driver driver = new com.mysql.jdbc.Driver();
-        String url = "jdbc:mysql://127.0.0.1:3306/?user=testuser&password=testuser12345";
-        connectionPool = new ConnectionPool(url, driver, 2);
+//        Driver driver = new com.mysql.jdbc.Driver();
+//        String url = "jdbc:mysql://127.0.0.1:3306/?user=testuser&password=testuser12345";
+//        connectionPool = new ConnectionPool(url, driver, 5);
 
         SpringApplication.run(Application.class, args);
     }

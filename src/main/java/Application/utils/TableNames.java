@@ -6,7 +6,6 @@ package Application.utils;
 public class TableNames {
     public static final String CONTRACT = "contract";
     public static final String LISTENER = "listener";
-    public static final String GRADUATE = "graduate";
     public static final String ACADEMIC_DEGREE = "academic_degree";
     public static final String ACADEMIC_RANK = "academic_rank";
     public static final String SUBDIVISION = "subdivision";
