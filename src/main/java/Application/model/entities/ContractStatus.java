@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Table(name = "contract_status")
 @NamedQueries({
         @NamedQuery(name = ContractStatus.QUERY_FIND_ALL, query = "SELECT d FROM ContractStatus d"),
-        @NamedQuery(name = ContractStatus.QUERY_FIND_BY_ID, query = "SELECT d FROM ContractStatus d WHERE id = :id")
 })
 
 public class ContractStatus extends AbstractEntity implements Serializable{
@@ -22,8 +21,6 @@ public class ContractStatus extends AbstractEntity implements Serializable{
 
     @Transient
     public static final String QUERY_FIND_ALL = "ContractStatus.findAll";
-    @Transient
-    public static final String QUERY_FIND_BY_ID = "ContractStatus.findByID";
 
     private String name;
 

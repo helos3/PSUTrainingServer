@@ -3,6 +3,7 @@ package Application.model.entities;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,17 @@ import java.util.List;
  */
 @Entity
 @Table(name = "training_program")
-public class TrainingProgram extends AbstractEntity {
+@NamedQueries({
+        @NamedQuery(name = TrainingProgram.QUERY_FIND_ALL, query = "SELECT d FROM TrainingProgram d"),
+})
+public class TrainingProgram extends AbstractEntity implements Serializable {
+
+    @Transient
+    private static final long serialVersionUID = 1L;
+
+    @Transient
+    public static final String QUERY_FIND_ALL = "TrainingProgram.findAll";
+
 
     private String name;
     private String category;

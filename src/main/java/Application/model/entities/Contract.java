@@ -12,7 +12,6 @@ import java.util.Date;
 @Entity
 @NamedQueries({
         @NamedQuery(name = Contract.QUERY_FIND_ALL, query = "SELECT d FROM Contract d"),
-        @NamedQuery(name = Contract.QUERY_FIND_BY_ID, query = "SELECT d FROM Contract d WHERE id = :id")
 })
 public class Contract extends AbstractEntity implements Serializable{
 
@@ -22,7 +21,6 @@ public class Contract extends AbstractEntity implements Serializable{
     @Transient
     public static final String QUERY_FIND_ALL = "Contract.findAll";
     @Transient
-    public static final String QUERY_FIND_BY_ID = "Contract.findByID";
 
 
     @ManyToOne

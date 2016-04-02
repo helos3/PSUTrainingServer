@@ -3,12 +3,27 @@ package Application.model.entities;
 import org.json.simple.JSONObject;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Created by Rushan on 23.03.2016.
  */
 @Entity
-public class Position extends AbstractEntity {
+@NamedQueries({
+        @NamedQuery(name = Position.QUERY_FIND_ALL, query = "SELECT d FROM Position d"),
+})
+
+public class Position extends AbstractEntity implements Serializable {
+
+    @Transient
+    private static final long serialVersionUID = 1L;
+
+    @Transient
+    public static final String QUERY_FIND_ALL = "Position.findAll";
+
     private String name;
 
     public Position() {

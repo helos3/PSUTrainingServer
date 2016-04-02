@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Table(name = "academic_degree")
 @NamedQueries({
         @NamedQuery(name = AcademicDegree.QUERY_FIND_ALL, query = "SELECT d FROM AcademicDegree d"),
-        @NamedQuery(name = AcademicDegree.QUERY_FIND_BY_ID, query = "SELECT d FROM AcademicDegree d WHERE id = :id")
 })
 public class AcademicDegree extends AbstractEntity implements Serializable {
     private String name;
@@ -22,8 +21,6 @@ public class AcademicDegree extends AbstractEntity implements Serializable {
 
     @Transient
     public static final String QUERY_FIND_ALL = "AcademicDegree.findAll";
-    @Transient
-    public static final String QUERY_FIND_BY_ID = "AcademicDegree.findByID";
 
     public AcademicDegree() {
     }

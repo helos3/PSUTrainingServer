@@ -5,6 +5,7 @@ import Application.utils.JSONAble;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -14,6 +15,8 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractEntity implements JSONAble {
     @Id @GeneratedValue
     protected int id;
+
+
 
     public void setId(int id) {
         this.id = id;
