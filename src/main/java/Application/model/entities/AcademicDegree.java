@@ -13,11 +13,8 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = AcademicDegree.QUERY_FIND_ALL, query = "SELECT d FROM AcademicDegree d"),
 })
-public class AcademicDegree extends AbstractEntity implements Serializable {
+public class AcademicDegree extends AbstractEntity {
     private String name;
-
-    @Transient
-    private static final long serialVersionUID = 1L;
 
     @Transient
     public static final String QUERY_FIND_ALL = "AcademicDegree.findAll";

@@ -1,5 +1,7 @@
 package Application.model.ejb;
 
+import Application.model.entities.AbstractEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
@@ -7,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by Rushan on 30.03.2016.
  */
-public abstract class AbstractEntityContainer<T extends Serializable> {
+public abstract class AbstractEntityContainer<T extends AbstractEntity> {
     protected abstract EntityManager getEntityManager();
 
     private Class<T> entityClass;

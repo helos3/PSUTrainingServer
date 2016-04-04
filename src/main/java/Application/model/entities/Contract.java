@@ -13,14 +13,10 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = Contract.QUERY_FIND_ALL, query = "SELECT d FROM Contract d"),
 })
-public class Contract extends AbstractEntity implements Serializable{
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class Contract extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "Contract.findAll";
-    @Transient
 
 
     @ManyToOne

@@ -16,10 +16,7 @@ import java.io.Serializable;
         @NamedQuery(name = Position.QUERY_FIND_ALL, query = "SELECT d FROM Position d"),
 })
 
-public class Position extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class Position extends AbstractEntity{
 
     @Transient
     public static final String QUERY_FIND_ALL = "Position.findAll";

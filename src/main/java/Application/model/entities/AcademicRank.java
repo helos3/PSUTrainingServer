@@ -14,10 +14,7 @@ import java.io.Serializable;
         @NamedQuery(name = AcademicRank.QUERY_FIND_ALL, query = "SELECT d FROM AcademicRank d"),
 })
 
-public class AcademicRank extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class AcademicRank extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "AcademicRank.findAll";

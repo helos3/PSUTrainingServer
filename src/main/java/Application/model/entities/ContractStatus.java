@@ -14,10 +14,7 @@ import java.io.Serializable;
         @NamedQuery(name = ContractStatus.QUERY_FIND_ALL, query = "SELECT d FROM ContractStatus d"),
 })
 
-public class ContractStatus extends AbstractEntity implements Serializable{
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class ContractStatus extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "ContractStatus.findAll";

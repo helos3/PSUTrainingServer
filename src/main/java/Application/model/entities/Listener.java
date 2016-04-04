@@ -16,10 +16,7 @@ import java.util.List;
         @NamedQuery(name = Listener.QUERY_FIND_BY_NAME, query = "SELECT d FROM Listener d WHERE first_name = :firstName " +
                                                                                             "AND second_name = :secondName")
 })
-public class Listener extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class Listener extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "Listener.findAll";

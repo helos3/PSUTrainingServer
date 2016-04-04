@@ -15,10 +15,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = Module.QUERY_FIND_ALL, query = "SELECT d FROM Module d"),
 })
-public class Module extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class Module extends AbstractEntity{
 
     @Transient
     public static final String QUERY_FIND_ALL = "Module.findAll";

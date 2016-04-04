@@ -14,10 +14,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = TrainingProgram.QUERY_FIND_ALL, query = "SELECT d FROM TrainingProgram d"),
 })
-public class TrainingProgram extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class TrainingProgram extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "TrainingProgram.findAll";

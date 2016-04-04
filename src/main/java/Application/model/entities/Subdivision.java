@@ -15,10 +15,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = Subdivision.QUERY_FIND_ALL, query = "SELECT d FROM Subdivision d"),
 })
-public class Subdivision extends AbstractEntity implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = 1L;
+public class Subdivision extends AbstractEntity {
 
     @Transient
     public static final String QUERY_FIND_ALL = "Subdivision.findAll";
