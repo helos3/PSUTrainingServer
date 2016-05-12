@@ -24,14 +24,21 @@ public class ContractStatus extends AbstractEntity {
     public ContractStatus() {
     }
 
+
+
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+            put("id", getId());
+            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
+    public static ContractStatus instanceFromJSON(JSONObject object) {
+        return new ContractStatus() {{
+            setId((int) object.get("id"));
+            setName((String) object.get("name"));
+        }};
     }
 
     public void setName(String name) {

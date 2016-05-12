@@ -57,13 +57,20 @@ public class TrainingProgram extends AbstractEntity {
         return category;
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
 
-    }
-
+//todo: tojson, fromjson
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+//            put("id", getId());
+//            put("name", getName());
+        }};
     }
+
+//    public static AcademicDegree instanceFromJSON(JSONObject object) {
+//        return new AcademicDegree() {{
+//            setId((int) object.get("id"));
+//            setName((String) object.get("name"));
+//        }};
+//    }
 }

@@ -1,40 +1,37 @@
-package Application.model.ejb;
+package Application.model.dao;
 
 import Application.model.entities.AbstractEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.io.Serializable;
 
 /**
  * Created by Rushan on 30.03.2016.
  */
-public abstract class AbstractEntityContainer<T extends AbstractEntity> {
+public abstract class AbstractDAO<T extends AbstractEntity> {
     protected abstract EntityManager getEntityManager();
 
     private Class<T> entityClass;
 
-    public Class<T> getEntityClass() {
-        return entityClass;
-    }
-
-    public AbstractEntityContainer(Class<T> entityClass) {
+    public AbstractDAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
-    public void persist(T entity) {
-        getEntityManager().persist(entity);
-    }
+//    public void persist(T entity) {
+//        getEntityManager().persist(entity);
+//    }
 
-    public void merge(T entity) {
-        getEntityManager().merge(entity);
-    }
+//    public void merge(T entity) {
+//        getEntityManager().merge(entity);
+//    }
 
     public void remove(T entity) {
         if (entity != null) {
             getEntityManager().remove(entity);
         }
     }
+
+    public T saveOrUpdate(final T entity) { return getEntityManager().merge(entity); }
 
     public void remove(Object id) {
         T entity = (T) getEntityManager().find(entityClass, id);
@@ -45,9 +42,9 @@ public abstract class AbstractEntityContainer<T extends AbstractEntity> {
         return getEntityManager().find(entityClass, id);
     }
 
-    public void refresh(T entity) {
-        getEntityManager().refresh(entity);
-    }
+//    public void refresh(T entity) {
+//        getEntityManager().refresh(entity);
+//    }
 
     public TypedQuery<T> namedQuery(String queryName) {
         return getEntityManager().createNamedQuery(queryName, entityClass);

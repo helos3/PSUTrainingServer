@@ -27,12 +27,17 @@ public class Module extends AbstractEntity{
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+            put("id", getId());
+            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
+    public static Module instanceFromJSON(JSONObject object) {
+        return new Module() {{
+            setId((int) object.get("id"));
+            setName((String) object.get("name"));
+        }};
     }
 
     public void setName(String name) {

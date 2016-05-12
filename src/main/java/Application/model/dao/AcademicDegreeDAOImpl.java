@@ -1,7 +1,7 @@
-package Application.model.ejb;
+package Application.model.dao;
 
 import Application.model.entities.AcademicDegree;
-import Application.model.entities.AcademicRank;
+import org.springframework.stereotype.Repository;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -14,12 +14,12 @@ import java.util.List;
  * Created by Rushan on 04.04.2016.
  */
 
-@Stateless
-public class AcademicDegreeContainer extends AbstractEntityContainer<AcademicDegree> {
+@Repository
+public class AcademicDegreeDAOImpl extends AbstractDAO<AcademicDegree> {
     @PersistenceContext(name = "academic_degree")
     private EntityManager entityManager;
 
-    public AcademicDegreeContainer() {
+    public AcademicDegreeDAOImpl() {
         super(AcademicDegree.class);
     }
 
@@ -29,7 +29,7 @@ public class AcademicDegreeContainer extends AbstractEntityContainer<AcademicDeg
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<AcademicDegree> findAll() {
+    public List<AcademicDegree> getAll() {
         return namedQuery(AcademicDegree.QUERY_FIND_ALL).getResultList();
     }
 

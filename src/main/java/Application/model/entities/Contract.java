@@ -130,15 +130,22 @@ public class Contract extends AbstractEntity {
     public Contract() {
     }
 
+
+    //TODO: tojson, fromjson, equals, hashcode
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+//            put("id", getId());
+//            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
-    }
+//    public static AcademicRank instanceFromJSON(JSONObject object) {
+//        return new AcademicRank() {{
+//            setId((int) object.get("id"));
+//            setName((String) object.get("name"));
+//        }};
+//    }
 
 //    @Override
 //    public boolean equals(Object o) {

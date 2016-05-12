@@ -3,6 +3,7 @@ package Application.model.entities;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,8 @@ import java.io.Serializable;
         @NamedQuery(name = AcademicDegree.QUERY_FIND_ALL, query = "SELECT d FROM AcademicDegree d"),
 })
 public class AcademicDegree extends AbstractEntity {
+
+    @NotNull
     private String name;
 
     @Transient
@@ -21,6 +24,7 @@ public class AcademicDegree extends AbstractEntity {
 
     public AcademicDegree() {
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -36,12 +40,17 @@ public class AcademicDegree extends AbstractEntity {
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+            put("id", getId());
+            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
+    public static AcademicDegree instanceFromJSON(JSONObject object) {
+        return new AcademicDegree() {{
+            setId((int) object.get("id"));
+            setName((String) object.get("name"));
+        }};
     }
 
 

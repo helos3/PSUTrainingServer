@@ -3,6 +3,7 @@ package Application.model.entities;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,6 +20,7 @@ public class AcademicRank extends AbstractEntity {
     @Transient
     public static final String QUERY_FIND_ALL = "AcademicRank.findAll";
 
+    @NotNull
     private String name;
 
     public AcademicRank() {
@@ -26,14 +28,18 @@ public class AcademicRank extends AbstractEntity {
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+            put("id", getId());
+            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
+    public static AcademicRank instanceFromJSON(JSONObject object) {
+        return new AcademicRank() {{
+            setId((int) object.get("id"));
+            setName((String) object.get("name"));
+        }};
     }
-
 
     public void setName(String name) {
         this.name = name;

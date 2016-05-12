@@ -64,15 +64,22 @@ public class Listener extends AbstractEntity {
         return contracts;
     }
 
+
+    //todo: tojson, fromjson
     @Override
     public JSONObject toJSON() {
-        return null;
+        return new JSONObject(){{
+//            put("id", getId());
+//            put("name", getName());
+        }};
     }
 
-    @Override
-    public void fromJSON(JSONObject inputJSON) {
-
-    }
+//    public static AcademicDegree instanceFromJSON(JSONObject object) {
+//        return new AcademicDegree() {{
+//            setId((int) object.get("id"));
+//            setName((String) object.get("name"));
+//        }};
+//    }
 
     public void setAcademicRank(AcademicRank academicRank) {
         this.academicRank = academicRank;
