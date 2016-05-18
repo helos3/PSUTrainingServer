@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * Created by Rushan on 25.02.2016.
  */
 @SpringBootApplication
-@ImportResource("META-INF/spring_config.xml")
+@ImportResource("spring_config.xml")
 public class Application {
     public static void main(String[] args) throws SQLException{
 

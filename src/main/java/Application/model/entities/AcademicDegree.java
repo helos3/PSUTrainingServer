@@ -26,6 +26,8 @@ public class AcademicDegree extends AbstractEntity {
     }
 
 
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -53,6 +55,9 @@ public class AcademicDegree extends AbstractEntity {
         }};
     }
 
-
-
+    public String toString() {
+        return "AcademicDegree{" +
+                "name='" + name + '\'' +
+                "} " + super.toString();
+    }
 }

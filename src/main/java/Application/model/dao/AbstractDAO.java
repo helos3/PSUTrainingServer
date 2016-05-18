@@ -4,12 +4,15 @@ import Application.model.entities.AbstractEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * Created by Rushan on 30.03.2016.
  */
 public abstract class AbstractDAO<T extends AbstractEntity> {
     protected abstract EntityManager getEntityManager();
+
+    public abstract List<T> getAll();
 
     private Class<T> entityClass;
 
@@ -31,7 +34,14 @@ public abstract class AbstractDAO<T extends AbstractEntity> {
         }
     }
 
-    public T saveOrUpdate(final T entity) { return getEntityManager().merge(entity); }
+    public T saveOrUpdate(final T entity) {
+        if (entity.getId() == -1) {
+            getEntityManager().persist(entity);
+            return entity;
+        }
+        else
+        return getEntityManager().merge(entity);
+    }
 
     public void remove(Object id) {
         T entity = (T) getEntityManager().find(entityClass, id);

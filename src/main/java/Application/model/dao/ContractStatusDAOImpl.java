@@ -1,9 +1,9 @@
 package Application.model.dao;
 
-import Application.model.entities.AcademicDegree;
+import Application.model.entities.AcademicRank;
+import Application.model.entities.ContractStatus;
 import org.springframework.stereotype.Repository;
 
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -11,16 +11,15 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Rushan on 04.04.2016.
+ * Created by Rushan on 12.05.2016.
  */
-
 @Repository
-public class AcademicDegreeDAOImpl extends AbstractDAO<AcademicDegree> {
-    @PersistenceContext(name = "academic_degree")
+public class ContractStatusDAOImpl extends AbstractDAO<ContractStatus> {
+    @PersistenceContext(name = "contract_status")
     private EntityManager entityManager;
 
-    public AcademicDegreeDAOImpl() {
-        super(AcademicDegree.class);
+    public ContractStatusDAOImpl() {
+        super(ContractStatus.class);
     }
 
     @Override
@@ -30,9 +29,8 @@ public class AcademicDegreeDAOImpl extends AbstractDAO<AcademicDegree> {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<AcademicDegree> getAll() {
-        return namedQuery(AcademicDegree.QUERY_FIND_ALL).getResultList();
+    public List<ContractStatus> getAll() {
+        return namedQuery(ContractStatus.QUERY_FIND_ALL).getResultList();
     }
-
 
 }

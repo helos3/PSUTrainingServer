@@ -1,6 +1,8 @@
 package Application.model.entities;
 
 import Application.utils.JSONAble;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -38,5 +40,13 @@ public abstract class AbstractEntity implements JSONAble, Serializable {
     @Override
     public int hashCode() {
         return 17 + getId();
+    }
+
+
+    @Override
+    public String toString() {
+        return "AbstractEntity{" +
+                "id=" + id +
+                '}';
     }
 }

@@ -37,5 +37,16 @@
         <!--<property name="dataSource" ref="dataSource" />-->
     </bean>
 
+    <bean id="academicRankManagerImpl" class="Application.model.services.AcademicRankServiceImpl">
+        <!--<property name="dataSource" ref="dataSource" />-->
+    </bean>
+
+    <bean id="contractManagerImpl" class="Application.model.services.ContractServiceImpl">
+        <!--<property name="dataSource" ref="dataSource" />-->
+    </bean>
+
+    <bean id="listenerManagerImpl" class="Application.model.services.ListenerServiceImpl">
+        <!--<property name="dataSource" ref="dataSource" />-->
+    </bean>
 
 </beans>

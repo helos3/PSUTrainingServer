@@ -1,7 +1,9 @@
 package Application.model.services;
 
-import Application.model.dao.AcademicDegreeDAOImpl;
-import Application.model.entities.AcademicDegree;
+import Application.model.dao.ContractStatusDAOImpl;
+import Application.model.dao.SubdivisionDAOImpl;
+import Application.model.entities.ContractStatus;
+import Application.model.entities.Subdivision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +14,25 @@ import java.util.List;
  * Created by Rushan on 12.05.2016.
  */
 @Component
-public class AcademicDegreeServiceImpl implements AbstractService<AcademicDegree> {
+public class SubdivisionServiceImpl implements AbstractService<Subdivision> {
 
     @Autowired
-    AcademicDegreeDAOImpl dao;
+    SubdivisionDAOImpl dao;
 
     @Override
-    public List<AcademicDegree> getAll() {
+    public List<Subdivision> getAll() {
         return dao.getAll();
     }
 
     @Override
     @Transactional
-    public int saveOrUpdate(AcademicDegree entity) {
+    public int saveOrUpdate(Subdivision entity) {
         return dao.saveOrUpdate(entity).getId();
     }
 
     @Override
     @Transactional
-    public void remove(AcademicDegree entity) {
+    public void remove(Subdivision entity) {
         dao.remove(entity);
     }
 
@@ -41,7 +43,8 @@ public class AcademicDegreeServiceImpl implements AbstractService<AcademicDegree
     }
 
     @Override
-    public AcademicDegree find(int id) {
+    public Subdivision find(int id) {
         return dao.find(id);
     }
+
 }

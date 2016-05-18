@@ -10,7 +10,9 @@ import java.util.List;
 public interface AbstractService<T extends AbstractEntity> {
     List<T> getAll();
 
-    void saveOrUpdate(T entity);
+    T find(int id);
+
+    int saveOrUpdate(T entity);
 
     void remove(T entity);
 
