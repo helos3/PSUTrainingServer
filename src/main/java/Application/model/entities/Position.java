@@ -29,20 +29,14 @@ public class Position extends AbstractEntity{
     public Position() {
     }
 
+
     @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
+    public Position cloneWithNoId() {
+        Position clonedEntity = new Position();
+        clonedEntity.setName(getName());
+        return clonedEntity;
     }
 
-    public static Position instanceFromJSON(JSONObject object) {
-        return new Position() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
-    }
 
     public void setName(String name) {
         this.name = name;

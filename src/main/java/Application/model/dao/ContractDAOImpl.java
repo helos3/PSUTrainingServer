@@ -5,8 +5,6 @@ import Application.model.entities.AcademicRank;
 import Application.model.entities.Contract;
 import org.springframework.stereotype.Repository;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -29,9 +27,19 @@ public class ContractDAOImpl extends AbstractDAO<Contract> {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Contract> getAll() {
         return namedQuery(Contract.QUERY_FIND_ALL).getResultList();
     }
 
+    public void remove(Object id) {
+        Contract entity = (Contract) getEntityManager().find(Contract.class, id);
+        remove(entity);
+    }
+
+
+    @Override
+    public void remove(Contract entity) {
+//        entity.getListener().deleteContract(entity);
+        super.remove(entity);
+    }
 }

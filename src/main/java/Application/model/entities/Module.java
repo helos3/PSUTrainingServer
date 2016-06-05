@@ -29,20 +29,14 @@ public class Module extends AbstractEntity{
     public Module() {
     }
 
+
     @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
+    public Module cloneWithNoId() {
+        Module clonedEntity = new Module();
+        clonedEntity.setName(getName());
+        return clonedEntity;
     }
 
-    public static Module instanceFromJSON(JSONObject object) {
-        return new Module() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
-    }
 
     public void setName(String name) {
         this.name = name;

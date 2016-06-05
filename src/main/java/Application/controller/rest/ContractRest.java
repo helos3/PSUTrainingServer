@@ -70,8 +70,7 @@ public class ContractRest {
 
     @RequestMapping(value = "/contract/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         Contract contract = (Contract) service.find(id);

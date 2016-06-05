@@ -25,20 +25,14 @@ public class Subdivision extends AbstractEntity {
     public Subdivision() {
     }
 
+
     @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
+    public Subdivision cloneWithNoId() {
+        Subdivision clonedEntity = new Subdivision();
+        clonedEntity.setName(getName());
+        return clonedEntity;
     }
 
-    public static Subdivision instanceFromJSON(JSONObject object) {
-        return new Subdivision() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
-    }
 
     public void setName(String name) {
         this.name = name;

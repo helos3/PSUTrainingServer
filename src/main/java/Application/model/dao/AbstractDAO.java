@@ -1,6 +1,7 @@
 package Application.model.dao;
 
 import Application.model.entities.AbstractEntity;
+import Application.model.entities.Contract;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -10,8 +11,8 @@ import java.util.List;
  * Created by Rushan on 30.03.2016.
  */
 public abstract class AbstractDAO<T extends AbstractEntity> {
-    protected abstract EntityManager getEntityManager();
 
+    protected abstract EntityManager getEntityManager();
     public abstract List<T> getAll();
 
     private Class<T> entityClass;
@@ -20,13 +21,6 @@ public abstract class AbstractDAO<T extends AbstractEntity> {
         this.entityClass = entityClass;
     }
 
-//    public void persist(T entity) {
-//        getEntityManager().persist(entity);
-//    }
-
-//    public void merge(T entity) {
-//        getEntityManager().merge(entity);
-//    }
 
     public void remove(T entity) {
         if (entity != null) {
@@ -35,8 +29,12 @@ public abstract class AbstractDAO<T extends AbstractEntity> {
     }
 
     public T saveOrUpdate(final T entity) {
-        if (entity.getId() == -1) {
-            getEntityManager().persist(entity);
+        T existingEntity = find(entity.getId());
+        if (existingEntity == null) {
+            AbstractEntity newEntity = entity.clone();
+            newEntity.setId(null);
+            getEntityManager().persist(newEntity);
+            entity.setId(newEntity.getId());
             return entity;
         }
         else
@@ -52,9 +50,6 @@ public abstract class AbstractDAO<T extends AbstractEntity> {
         return getEntityManager().find(entityClass, id);
     }
 
-//    public void refresh(T entity) {
-//        getEntityManager().refresh(entity);
-//    }
 
     public TypedQuery<T> namedQuery(String queryName) {
         return getEntityManager().createNamedQuery(queryName, entityClass);

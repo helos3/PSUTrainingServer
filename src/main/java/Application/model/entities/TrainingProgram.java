@@ -1,6 +1,5 @@
 package Application.model.entities;
 
-import Application.utils.ManyToManyDeserialize;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -34,7 +33,7 @@ public class TrainingProgram extends AbstractEntity {
 
     private String name;
     private String category;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {}, fetch = FetchType.EAGER)
     @JoinTable(name = "training_plan",
             joinColumns = @JoinColumn(name = "training_program_id"),
             inverseJoinColumns = @JoinColumn(name = "module_id")
@@ -79,30 +78,14 @@ public class TrainingProgram extends AbstractEntity {
         return category;
     }
 
+
     @Override
-    public JSONObject toJSON() {
-        return new JSONObject() {{
-            put("id", getId());
-            put("name", getName());
-            JSONArray modulesJSON = new JSONArray();
-            for (Module module : getModules()) {
-                modulesJSON.add(module.toJSON());
-            }
-            put("modules", modulesJSON.toJSONString());
-        }};
+    public TrainingProgram cloneWithNoId() {
+        TrainingProgram clonedEntity = new TrainingProgram();
+        clonedEntity.setName(getName());
+        clonedEntity.setCategory(getCategory());
+        clonedEntity.setModules(getModules());
+        return clonedEntity;
     }
 
-    public static TrainingProgram instanceFromJSON(JSONObject object) {
-        return new TrainingProgram() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-            JSONArray modulesJSON = (JSONArray) object.get("modules");
-            Iterator i = modulesJSON.iterator();
-            while (i.hasNext()) {
-                JSONObject moduleJSON = (JSONObject) i.next();
-                Module module = Module.instanceFromJSON(moduleJSON);
-                addModule(module);
-            }
-        }};
-    }
 }

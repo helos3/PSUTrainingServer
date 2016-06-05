@@ -69,15 +69,13 @@ public class AcademicRankRest {
 
     @RequestMapping(value = "/academic_rank/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         AcademicRank rank = (AcademicRank) service.find(id);
         if (rank == null)
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         else
-
             service.remove(id);
     }
 

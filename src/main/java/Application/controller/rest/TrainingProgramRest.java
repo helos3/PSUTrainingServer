@@ -69,8 +69,7 @@ public class TrainingProgramRest {
 
     @RequestMapping(value = "/training_program/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         TrainingProgram program = (TrainingProgram) service.find(id);

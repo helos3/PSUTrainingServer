@@ -3,9 +3,6 @@ package Application.model.dao;
 import Application.model.entities.AcademicDegree;
 import org.springframework.stereotype.Repository;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -29,7 +26,6 @@ public class AcademicDegreeDAOImpl extends AbstractDAO<AcademicDegree> {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<AcademicDegree> getAll() {
         return namedQuery(AcademicDegree.QUERY_FIND_ALL).getResultList();
     }

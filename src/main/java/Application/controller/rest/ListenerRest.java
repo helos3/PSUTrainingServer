@@ -67,8 +67,7 @@ public class ListenerRest {
 
     @RequestMapping(value = "/listener/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         Listener listener= (Listener) service.find(id);

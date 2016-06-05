@@ -71,6 +71,7 @@ public class Contract extends AbstractEntity {
     public int getListenerID() {
         return listener.getId();
     }
+
     @JsonProperty("listener_id")
     public void setListenerID(int listenerID) {
         if (listener == null) listener = new Listener();
@@ -155,32 +156,6 @@ public class Contract extends AbstractEntity {
     public Contract() {
     }
 
-
-
-    //TODO: tojson, fromjson, equals, hashcode
-    @Override
-    public JSONObject toJSON() {
-        return new JSONObject() {{
-            put("id", getId());
-            put("listener_id", getListener().getId());
-            put("sign_date", DateUtils.dateToString(getSignDate()));
-            put("end_date", DateUtils.dateToString(getEndDate()));
-            put("training_program", trainingProgram.toJSON());
-            put("contract_status", contractStatus.toJSON());
-            put("current_academic_rank", currentAcademicRank.toJSON());
-            put("current_academic_degree", currentAcademicDegree.toJSON());
-            put("current_position", currentPosition.toJSON());
-            put("current_subdivision", currentSubdivision.toJSON());
-        }};
-    }
-
-    public static Contract instanceFromJSON(JSONObject object) {
-        return new Contract() {{
-//            setId((int) object.get("id"));
-//            setName((String) object.get("name"));
-        }};
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -202,6 +177,22 @@ public class Contract extends AbstractEntity {
 //        result += listenerID << 16;
         return result;
     }
+
+    @Override
+    public Contract cloneWithNoId() {
+        Contract clonedEntity = new Contract();
+        clonedEntity.setListener(getListener());
+        clonedEntity.setSignDate(getSignDate());
+        clonedEntity.setEndDate(getEndDate());
+        clonedEntity.setContractStatus(getContractStatus());
+        clonedEntity.setCurrentAcademicDegree(getCurrentAcademicDegree());
+        clonedEntity.setCurrentAcademicRank(getCurrentAcademicRank());
+        clonedEntity.setCurrentPosition(getCurrentPosition());
+        clonedEntity.setCurrentSubdivision(getCurrentSubdivision());
+        clonedEntity.setTrainingProgram(getTrainingProgram());
+        return clonedEntity;
+    }
+
 
 
 }

@@ -4,8 +4,6 @@ import Application.model.entities.Subdivision;
 import Application.model.entities.TrainingProgram;
 import org.springframework.stereotype.Repository;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -28,7 +26,6 @@ public class TrainingProgramDAOImpl extends AbstractDAO<TrainingProgram> {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<TrainingProgram> getAll() {
         return namedQuery(TrainingProgram.QUERY_FIND_ALL).getResultList();
     }

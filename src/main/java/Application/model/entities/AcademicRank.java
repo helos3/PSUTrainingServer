@@ -26,19 +26,12 @@ public class AcademicRank extends AbstractEntity {
     public AcademicRank() {
     }
 
-    @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
-    }
 
-    public static AcademicRank instanceFromJSON(JSONObject object) {
-        return new AcademicRank() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
+    @Override
+    public AcademicRank cloneWithNoId() {
+        AcademicRank clonedEntity = new AcademicRank();
+        clonedEntity.setName(getName());
+        return clonedEntity;
     }
 
     public void setName(String name) {

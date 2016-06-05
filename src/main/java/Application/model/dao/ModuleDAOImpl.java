@@ -4,8 +4,6 @@ import Application.model.entities.AcademicRank;
 import Application.model.entities.Module;
 import org.springframework.stereotype.Repository;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -28,7 +26,6 @@ public class ModuleDAOImpl extends AbstractDAO<Module> {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Module> getAll() {
         return namedQuery(Module.QUERY_FIND_ALL).getResultList();
     }

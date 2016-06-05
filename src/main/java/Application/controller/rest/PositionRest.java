@@ -71,8 +71,7 @@ public class PositionRest {
 
     @RequestMapping(value = "/position/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         Position position = (Position) service.find(id);

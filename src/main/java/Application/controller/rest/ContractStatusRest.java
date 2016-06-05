@@ -67,8 +67,7 @@ public class ContractStatusRest {
 
     @RequestMapping(value = "/contract_status/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         ContractStatus contractStatus= (ContractStatus) service.find(id);

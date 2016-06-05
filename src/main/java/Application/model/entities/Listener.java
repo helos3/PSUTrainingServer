@@ -61,10 +61,15 @@ public class Listener extends AbstractEntity {
     @JoinColumn(name = "subdivision_id")
     private Subdivision subdivision;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "listener_id")
     @JsonManagedReference
     private List<Contract> contracts;
+
+    public void deleteContract(Contract contract) {
+        contract.setListener(null);
+        contracts.remove(contract);
+    }
 
 
     @JsonManagedReference
@@ -84,48 +89,6 @@ public class Listener extends AbstractEntity {
     }
 
 
-    //todo: tojson, fromjson
-    @Override
-    public JSONObject toJSON() {
-        return new JSONObject() {{
-            put("id", getId());
-            put("first_name", firstName);
-            put("second_name", secondName);
-            put("patronymic", patronymic);
-            put("pass_serial", passSerial);
-            put("pass_number", passNumber);
-            put("city", city);
-            put("academic_rank", academicRank.toJSON());
-            put("academic_degree", academicDegree.toJSON());
-            put("position", position.toJSON());
-            put("subdivision", subdivision.toJSON());
-            JSONArray contracts = new JSONArray();
-            for (Contract contract : getContracts())
-                contracts.add(contract.toJSON());
-            put("contracts", contracts);
-        }};
-    }
-
-    public static Listener instanceFromJSON(JSONObject inputJSON) {
-        return new Listener() {{
-            setId((int) inputJSON.get("id"));
-            setFirstName((String) inputJSON.get("first_name"));
-            setSecondName((String) inputJSON.get("second_name"));
-            setPatronymic((String) inputJSON.get("patronymic"));
-            setPassSerial((String) inputJSON.get("pass_serial"));
-            setPassNumber((String) inputJSON.get("pass_number"));
-            setCity((String) inputJSON.get("city"));
-
-            JSONArray contracts = (JSONArray) inputJSON.get("contracts");
-            Iterator i = contracts.iterator();
-
-            while (i.hasNext()) {
-                JSONObject contractJSON = (JSONObject) i.next();
-                Contract contract = Contract.instanceFromJSON(contractJSON);
-                addContract(contract);
-            }
-        }};
-    }
 
     @JsonProperty("academic_rank")
     public void setAcademicRank(AcademicRank academicRank) {
@@ -212,6 +175,24 @@ public class Listener extends AbstractEntity {
     @JsonProperty("city")
     public String getCity() {
         return city;
+    }
+
+
+    @Override
+    public Listener cloneWithNoId() {
+        Listener clonedEntity = new Listener();
+        clonedEntity.setFirstName(getFirstName());
+        clonedEntity.setSecondName(getSecondName());
+        clonedEntity.setPatronymic(getPatronymic());
+        clonedEntity.setCity(getCity());
+        clonedEntity.setPassNumber(getPassNumber());
+        clonedEntity.setPassSerial(getPassSerial());
+        clonedEntity.setAcademicDegree(getAcademicDegree());
+        clonedEntity.setAcademicRank(getAcademicRank());
+        clonedEntity.setPosition(getPosition());
+        clonedEntity.setSubdivision(getSubdivision());
+        clonedEntity.setContracts(getContracts());
+        return clonedEntity;
     }
 
 

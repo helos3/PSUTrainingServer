@@ -1,9 +1,5 @@
 package Application.model.entities;
 
-import Application.utils.JSONAble;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -15,20 +11,23 @@ import java.io.Serializable;
  */
 
 @MappedSuperclass
-public abstract class AbstractEntity implements JSONAble, Serializable {
-    @Id @GeneratedValue
-    protected int id;
+public abstract class AbstractEntity implements Serializable, Cloneable {
+    @Id
+    @GeneratedValue
+    protected Integer id;
 
     @Transient
     protected static final long serialVersionUID = 1L;
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public int getId() {
         return id;
     }
+
+    public abstract AbstractEntity cloneWithNoId();
 
     @Override
     public boolean equals(Object o) {
@@ -48,5 +47,15 @@ public abstract class AbstractEntity implements JSONAble, Serializable {
         return "AbstractEntity{" +
                 "id=" + id +
                 '}';
+    }
+
+    @Override
+    public AbstractEntity clone(){
+        try {
+            return (AbstractEntity) super.clone();
+        }
+        catch( CloneNotSupportedException ex ) {
+            throw new InternalError();
+        }
     }
 }

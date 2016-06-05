@@ -40,24 +40,17 @@ public class AcademicDegree extends AbstractEntity {
         this.name = name;
     }
 
-    @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
-    }
-
-    public static AcademicDegree instanceFromJSON(JSONObject object) {
-        return new AcademicDegree() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
-    }
-
     public String toString() {
         return "AcademicDegree{" +
                 "name='" + name + '\'' +
                 "} " + super.toString();
     }
+
+    @Override
+    public AcademicDegree cloneWithNoId() {
+        AcademicDegree clonedEntity = new AcademicDegree();
+        clonedEntity.setName(getName());
+        return clonedEntity;
+    }
+
 }

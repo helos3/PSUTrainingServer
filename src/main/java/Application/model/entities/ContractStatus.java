@@ -26,20 +26,6 @@ public class ContractStatus extends AbstractEntity {
 
 
 
-    @Override
-    public JSONObject toJSON() {
-        return new JSONObject(){{
-            put("id", getId());
-            put("name", getName());
-        }};
-    }
-
-    public static ContractStatus instanceFromJSON(JSONObject object) {
-        return new ContractStatus() {{
-            setId((int) object.get("id"));
-            setName((String) object.get("name"));
-        }};
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -51,6 +37,13 @@ public class ContractStatus extends AbstractEntity {
 
     public ContractStatus(String name) {
         this.name = name;
+    }
+
+    @Override
+    public ContractStatus cloneWithNoId() {
+        ContractStatus clonedEntity = new ContractStatus();
+        clonedEntity.setName(getName());
+        return clonedEntity;
     }
 
 }

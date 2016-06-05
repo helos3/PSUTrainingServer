@@ -69,8 +69,7 @@ public class SubdivisionRest {
 
     @RequestMapping(value = "/subdivision/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteSingle(@RequestBody String body,
-                             @PathVariable int id,
+    public void deleteSingle(@PathVariable int id,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         Subdivision subdivision = (Subdivision) service.find(id);
