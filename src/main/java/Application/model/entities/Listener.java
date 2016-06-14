@@ -1,13 +1,9 @@
 package Application.model.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -175,24 +171,6 @@ public class Listener extends AbstractEntity {
     @JsonProperty("city")
     public String getCity() {
         return city;
-    }
-
-
-    @Override
-    public Listener cloneWithNoId() {
-        Listener clonedEntity = new Listener();
-        clonedEntity.setFirstName(getFirstName());
-        clonedEntity.setSecondName(getSecondName());
-        clonedEntity.setPatronymic(getPatronymic());
-        clonedEntity.setCity(getCity());
-        clonedEntity.setPassNumber(getPassNumber());
-        clonedEntity.setPassSerial(getPassSerial());
-        clonedEntity.setAcademicDegree(getAcademicDegree());
-        clonedEntity.setAcademicRank(getAcademicRank());
-        clonedEntity.setPosition(getPosition());
-        clonedEntity.setSubdivision(getSubdivision());
-        clonedEntity.setContracts(getContracts());
-        return clonedEntity;
     }
 
 

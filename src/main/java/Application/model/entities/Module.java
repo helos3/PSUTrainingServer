@@ -1,12 +1,8 @@
 package Application.model.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -30,14 +26,6 @@ public class Module extends AbstractEntity{
     }
 
 
-    @Override
-    public Module cloneWithNoId() {
-        Module clonedEntity = new Module();
-        clonedEntity.setName(getName());
-        return clonedEntity;
-    }
-
-
     public void setName(String name) {
         this.name = name;
     }
@@ -50,17 +38,4 @@ public class Module extends AbstractEntity{
         this.name = name;
     }
 
-//    @JsonBackReference(value="modules-ref")
-//    @ManyToMany(cascade= CascadeType.ALL, mappedBy="modules", fetch = FetchType.EAGER)
-//    Set<TrainingProgram> program;
-//
-//    @JsonBackReference(value="modules-ref")
-//    public void setProgram(Set<TrainingProgram> program) {
-//        this.program = program;
-//    }
-//
-//    @JsonBackReference(value="modules-ref")
-//    public Set<TrainingProgram> getProgram() {
-//        return program;
-//    }
 }

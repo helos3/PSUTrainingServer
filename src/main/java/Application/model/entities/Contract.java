@@ -1,14 +1,9 @@
 package Application.model.entities;
 
-import Application.utils.DateUtils;
 import com.fasterxml.jackson.annotation.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -174,25 +169,8 @@ public class Contract extends AbstractEntity {
         int result = 17;
         result += getId();
         if (listener != null) result += listener.getId() << 16;
-//        result += listenerID << 16;
         return result;
     }
-
-    @Override
-    public Contract cloneWithNoId() {
-        Contract clonedEntity = new Contract();
-        clonedEntity.setListener(getListener());
-        clonedEntity.setSignDate(getSignDate());
-        clonedEntity.setEndDate(getEndDate());
-        clonedEntity.setContractStatus(getContractStatus());
-        clonedEntity.setCurrentAcademicDegree(getCurrentAcademicDegree());
-        clonedEntity.setCurrentAcademicRank(getCurrentAcademicRank());
-        clonedEntity.setCurrentPosition(getCurrentPosition());
-        clonedEntity.setCurrentSubdivision(getCurrentSubdivision());
-        clonedEntity.setTrainingProgram(getTrainingProgram());
-        return clonedEntity;
-    }
-
 
 
 }

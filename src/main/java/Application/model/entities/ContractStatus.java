@@ -1,9 +1,6 @@
 package Application.model.entities;
 
-import org.json.simple.JSONObject;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -24,9 +21,6 @@ public class ContractStatus extends AbstractEntity {
     public ContractStatus() {
     }
 
-
-
-
     public void setName(String name) {
         this.name = name;
     }
@@ -37,13 +31,6 @@ public class ContractStatus extends AbstractEntity {
 
     public ContractStatus(String name) {
         this.name = name;
-    }
-
-    @Override
-    public ContractStatus cloneWithNoId() {
-        ContractStatus clonedEntity = new ContractStatus();
-        clonedEntity.setName(getName());
-        return clonedEntity;
     }
 
 }

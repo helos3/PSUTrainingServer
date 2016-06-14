@@ -1,10 +1,7 @@
 package Application.model.entities;
 
-import org.json.simple.JSONObject;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -44,13 +41,6 @@ public class AcademicDegree extends AbstractEntity {
         return "AcademicDegree{" +
                 "name='" + name + '\'' +
                 "} " + super.toString();
-    }
-
-    @Override
-    public AcademicDegree cloneWithNoId() {
-        AcademicDegree clonedEntity = new AcademicDegree();
-        clonedEntity.setName(getName());
-        return clonedEntity;
     }
 
 }

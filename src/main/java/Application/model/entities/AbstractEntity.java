@@ -27,8 +27,6 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
         return id;
     }
 
-    public abstract AbstractEntity cloneWithNoId();
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -50,11 +48,10 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
     }
 
     @Override
-    public AbstractEntity clone(){
+    public AbstractEntity clone() {
         try {
             return (AbstractEntity) super.clone();
-        }
-        catch( CloneNotSupportedException ex ) {
+        } catch (CloneNotSupportedException ex) {
             throw new InternalError();
         }
     }

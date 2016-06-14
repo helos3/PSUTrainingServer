@@ -1,12 +1,9 @@
 package Application.model.entities;
 
-import org.json.simple.JSONObject;
-
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
-import java.io.Serializable;
 
 /**
  * Created by Rushan on 23.03.2016.
@@ -23,14 +20,6 @@ public class Subdivision extends AbstractEntity {
     private String name;
 
     public Subdivision() {
-    }
-
-
-    @Override
-    public Subdivision cloneWithNoId() {
-        Subdivision clonedEntity = new Subdivision();
-        clonedEntity.setName(getName());
-        return clonedEntity;
     }
 
 
